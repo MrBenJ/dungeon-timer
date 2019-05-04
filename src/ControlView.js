@@ -8,8 +8,7 @@ class ControlView extends Component {
     this.state = {
       title: '',
       timerValue: '00:00:00',
-      remainingTime: ''
-
+      displayTimer: '00:00:00'
     };
 
     this.timer = new Timer();
@@ -17,7 +16,7 @@ class ControlView extends Component {
 
   updateFormValues = event => {
     const { name, value } = event.target;
-    console.log(name, value);
+
     this.setState({
       [name]: value
     });
@@ -28,15 +27,28 @@ class ControlView extends Component {
 
   }
 
-  setTimerValue = () => {
-    this.setState({
 
-    })
-  }
 
   startTimer = () => {
+    const { timerValue } = this.state;
+
+    const [ hours, minutes, seconds ] = timerValue.replace('_', '0').split(':');
     this.timer.start({
-      countdown: true
+      countdown: true,
+      startValues: {
+        seconds: parseInt(seconds, 10),
+        minutes: parseInt(minutes, 10),
+        hours: parseInt(hours, 10)
+      }
+    });
+
+    this.timer.addEventListener('secondsUpdated', () => {
+      const { hours, minutes, seconds } = this.timer.getTimeValues();
+
+      this.setState({
+        displayTimer: `${hours}:${minutes}:${seconds}`
+      });
+
     });
   }
 
@@ -53,7 +65,10 @@ class ControlView extends Component {
   }
 
   render() {
-    const { title, timerValue } = this.state;
+
+    const { title, timerValue, displayTimer } = this.state;
+    const [hours, minutes, seconds ] = displayTimer.split(':');
+
     return (
       <div>
         <h1>DM Controller</h1>
@@ -77,6 +92,12 @@ class ControlView extends Component {
           <button onClick={this.startTimer}>Start</button>
           <button onClick={this.pauseTimer}>Pause</button>
           <button onClick={this.resetTimer}>Reset</button>
+        </div>
+        <div className="timer-display">
+          <h2>Current Timer</h2>
+          <p className="timer">
+            {`${hours}:${minutes}:${seconds}`}
+          </p>
         </div>
 
       </div>
