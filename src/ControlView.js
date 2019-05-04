@@ -2,6 +2,28 @@ import React, { Component } from 'react';
 import Timer from 'easytimer/dist/easytimer.min.js';
 import InputMask from 'react-input-mask';
 
+function formatTimerValues(_hours, _minutes, _seconds) {
+
+  const hours = ('' + _hours).length === 1
+    ? '0' + _hours
+    : _hours;
+
+  const minutes = ('' + _minutes).length === 1
+    ? '0' + _minutes
+    : _minutes;
+
+  const seconds = ('' + _seconds).length === 1
+  ? '0' + _seconds
+  : _seconds;
+
+  return {
+    hours,
+    minutes,
+    seconds
+  };
+
+}
+
 class ControlView extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +65,7 @@ class ControlView extends Component {
     });
 
     this.timer.addEventListener('secondsUpdated', () => {
-      const { hours, minutes, seconds } = this.timer.getTimeValues();
+      const { hours, minutes, seconds } = formatTimerValues(this.timer.getTimeValues());
 
       this.setState({
         displayTimer: `${hours}:${minutes}:${seconds}`
