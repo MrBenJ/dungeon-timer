@@ -7,21 +7,31 @@ class ControlView extends Component {
     super(props);
     this.state = {
       title: '',
+      timerValue: '00:00:00',
+      remainingTime: ''
 
     };
 
     this.timer = new Timer();
   }
 
-  updateValues = event => {
+  updateFormValues = event => {
     const { name, value } = event.target;
-    if (name && value) {
-      this.setState({
-        [name]: value
-      });
+    console.log(name, value);
+    this.setState({
+      [name]: value
+    });
 
-      localStorage.setItem(name, value);
+    if (name === 'title') {
+      localStorage.setItem('title', value);
     }
+
+  }
+
+  setTimerValue = () => {
+    this.setState({
+
+    })
   }
 
   startTimer = () => {
@@ -43,7 +53,7 @@ class ControlView extends Component {
   }
 
   render() {
-    const { title } = this.state;
+    const { title, timerValue } = this.state;
     return (
       <div>
         <h1>DM Controller</h1>
@@ -53,22 +63,22 @@ class ControlView extends Component {
           type="text"
           name="title"
           value={title}
-          onChange={this.updateValues}
+          onChange={this.updateFormValues}
         />
         <div className="timer-controller">
           <label>Set Time (HH:MM:SS)</label>
-          <InputMask mask="99:99:99" />
-          <button onClick={this.startTimer}>
-            Start
-          </button>
-          <button onClick={this.pauseTimer}>
-            Pause
-          </button>
-          <button onClick={this.resetTimer}>
-            Reset
-          </button>
-
+          <InputMask
+            mask="99:99:99"
+            name="timerValue"
+            value={timerValue}
+            onChange={this.updateFormValues}
+          />
+          <br/>
+          <button onClick={this.startTimer}>Start</button>
+          <button onClick={this.pauseTimer}>Pause</button>
+          <button onClick={this.resetTimer}>Reset</button>
         </div>
+
       </div>
     );
   }
