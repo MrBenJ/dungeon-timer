@@ -2,27 +2,7 @@ import React, { Component } from 'react';
 import Timer from 'easytimer/dist/easytimer.min.js';
 import InputMask from 'react-input-mask';
 
-function formatTimerValues(_hours, _minutes, _seconds) {
-
-  const hours = ('' + _hours).length === 1
-    ? '0' + _hours
-    : _hours;
-
-  const minutes = ('' + _minutes).length === 1
-    ? '0' + _minutes
-    : _minutes;
-
-  const seconds = ('' + _seconds).length === 1
-  ? '0' + _seconds
-  : _seconds;
-
-  return {
-    hours,
-    minutes,
-    seconds
-  };
-
-}
+import { formatTimerValues } from './utils';
 
 class ControlView extends Component {
   constructor(props) {
