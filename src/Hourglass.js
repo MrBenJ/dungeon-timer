@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { formatSeconds, formatTimerValues } from './utils';
 
-export default class Hourglass extends Component {
-  constructor(props) {
-    super(props);
+function Hourglass(props) {
+  const { showTimer, remainingSeconds } = props;
+  const { hours, minutes, seconds } = formatSeconds(remainingSeconds);
+  const formatted = formatTimerValues(hours, minutes, seconds);
+  return (
+    <div>
+      Hourglass
+      {showTimer && `${formatted.hours}:${formatted.minutes}:${formatted.seconds}`}
+    </div>
+  );
+}
 
-    this.state = {
-      displayTime: '00:00:00',
-      setTime: null,
-      remainingTime: null
-    };
-  }
-
-  render() {
-    return (
-      <div></div>
-    );
-  }
+export default Hourglass;

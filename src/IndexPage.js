@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
+import Hourglass from './Hourglass';
 class IndexPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       title: '',
-      displayTime: '',
+      showTimer: 'false'
     }
   }
 
   updateState = () => {
     const title = localStorage.getItem('title');
+    const showTimer = localStorage.getItem('showTimer');
+    const totalTime = localStorage.getItem('totalTime');
+    const remainingTime = localStorage.getItem('remainingTime');
+
     this.setState({
-      title
+      title,
+      showTimer: showTimer.toString(),
+      totalTime: +totalTime,
+      remainingTime: +remainingTime
     });
   }
 
@@ -21,16 +30,22 @@ class IndexPage extends Component {
     if (!localStorage) {
       return (
         <div className="no-support">
-          Real dungeon masters use a browser that has
-          localStorage support. Adopt the technologies of 2011.
-          Use a modern browser!
+          Real dungeon masters use a browser that has localStorage support.
+          Adopt the technologies of 2011. Use a modern browser!
         </div>
-      )
+      );
     }
+
+    const { title, showTimer, totalTime, remainingTime } = this.state;
 
     return (
       <div className="app">
-        <p>{this.state.title}</p>
+        <p>{title || ' '}</p>
+        <Hourglass
+          showTimer={Boolean(showTimer === 'true')}
+          totalSeconds={totalTime}
+          remainingSeconds={remainingTime}
+        />
         <Link to="/control" target="_blank">Open controller</Link>
       </div>
     );

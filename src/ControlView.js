@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Timer from 'easytimer/dist/easytimer.min.js';
 import InputMask from 'react-input-mask';
 
-import { formatTimerValues } from './utils';
+import { formatTimerValues, getTotalSeconds } from './utils';
 
 class ControlView extends Component {
   constructor(props) {
@@ -10,7 +10,8 @@ class ControlView extends Component {
     this.state = {
       title: '',
       timerValue: '00:00:00',
-      displayTimer: '00:00:00'
+      displayTimer: '00:00:00',
+      showTimer: false
     };
 
     this.timer = new Timer();
@@ -32,9 +33,16 @@ class ControlView extends Component {
 
 
   startTimer = () => {
+    console.log(this.timer);
+    if (this.timer.isPaused()) {
+      this.timer.start();
+      return;
+    }
     const { timerValue } = this.state;
 
     const [ hours, minutes, seconds ] = timerValue.replace('_', '0').split(':');
+    const totalTime = getTotalSeconds(+hours, +minutes, +seconds);
+
     this.timer.start({
       countdown: true,
       startValues: {
@@ -47,28 +55,42 @@ class ControlView extends Component {
     this.timer.addEventListener('secondsUpdated', () => {
       const { hours, minutes, seconds } = formatTimerValues(this.timer.getTimeValues());
 
+      const { hours: _hours, minutes: _minutes, seconds: _seconds } = this.timer.getTimeValues();
+
+
+      const remainingTime = getTotalSeconds(_hours, _minutes, _seconds);
+
       this.setState({
         displayTimer: `${hours}:${minutes}:${seconds}`
       });
 
+      localStorage.setItem('remainingTime', remainingTime);
+
     });
+
+    localStorage.setItem('totalTime', totalTime);
   }
 
   pauseTimer = () => {
-    this.timer.start({
-      countdown: true
-    });
+    this.timer.pause();
   }
 
   resetTimer = () => {
-    this.timer.start({
-      countdown: true
+    this.timer.reset();
+  }
+
+  toggleTimer = event => {
+    const { checked } = event.target;
+    this.setState({
+      showTimer: checked
     });
+
+    localStorage.setItem('showTimer', checked);
   }
 
   render() {
 
-    const { title, timerValue, displayTimer } = this.state;
+    const { title, timerValue, displayTimer, showTimer } = this.state;
     const [hours, minutes, seconds ] = displayTimer.split(':');
 
     return (
@@ -95,6 +117,8 @@ class ControlView extends Component {
           <button onClick={this.pauseTimer}>Pause</button>
           <button onClick={this.resetTimer}>Reset</button>
         </div>
+        <input type="checkbox" onChange={this.toggleTimer} value={showTimer} />
+        <label htmlFor="showTimer">Show timer to players?</label>
         <div className="timer-display">
           <h2>Current Timer</h2>
           <p className="timer">
