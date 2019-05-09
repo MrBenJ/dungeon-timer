@@ -40,13 +40,13 @@ class IndexPage extends Component {
 
     return (
       <div className="app">
-        <p>{title || ' '}</p>
+        <p className="app-title">{title || ' '}</p>
         <Hourglass
           showTimer={Boolean(showTimer === 'true')}
           totalSeconds={totalTime}
           remainingSeconds={remainingTime}
         />
-        <Link to="/control" target="_blank">Open controller</Link>
+        {/* <Link to="/control" target="_blank">Open controller</Link> */}
       </div>
     );
   }

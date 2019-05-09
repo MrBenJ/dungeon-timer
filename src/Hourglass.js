@@ -7,8 +7,11 @@ function Hourglass(props) {
   const formatted = formatTimerValues(hours, minutes, seconds);
   return (
     <div>
-      {showTimer && `${formatted.hours}:${formatted.minutes}:${formatted.seconds}`}
+      <div className="hourglass-time">
+        {showTimer && `${formatted.hours}:${formatted.minutes}:${formatted.seconds}`}
+      </div>
       <div className="hourglass">
+
         <div className="hourglass-bar"
           style={{ width: (
             ((totalSeconds - remainingSeconds) / totalSeconds) * 100) + '%'
