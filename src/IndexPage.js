@@ -52,6 +52,9 @@ class IndexPage extends Component {
   }
 
   componentDidMount() {
+    // rehydrate the timer with whatever values are inside of localStorage
+    this.updateState();
+
     // Establish a localStorage Listener as a controller
     window.addEventListener('storage', this.updateState)
   }

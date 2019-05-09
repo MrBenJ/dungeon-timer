@@ -33,7 +33,6 @@ class ControlView extends Component {
 
 
   startTimer = () => {
-    console.log(this.timer);
     if (this.timer.isPaused()) {
       this.timer.start();
       return;
@@ -94,7 +93,7 @@ class ControlView extends Component {
     const [hours, minutes, seconds ] = displayTimer.split(':');
 
     return (
-      <div>
+      <div className="controller">
         <h1>DM Controller</h1>
         <label htmlFor="title">Title to display</label>
         <input
@@ -113,12 +112,19 @@ class ControlView extends Component {
             onChange={this.updateFormValues}
           />
           <br/>
-          <button onClick={this.startTimer}>Start</button>
-          <button onClick={this.pauseTimer}>Pause</button>
-          <button onClick={this.resetTimer}>Reset</button>
+          <button className="timer-controller-button" onClick={this.startTimer}>Start</button>
+          <button className="timer-controller-button" onClick={this.pauseTimer}>Pause</button>
+          <button className="timer-controller-button" onClick={this.resetTimer}>Reset</button>
         </div>
-        <input type="checkbox" onChange={this.toggleTimer} value={showTimer} />
-        <label htmlFor="showTimer">Show timer to players?</label>
+        <input
+          id="showTimer"
+          type="checkbox"
+          onChange={this.toggleTimer}
+          value={showTimer}
+        />
+        <label htmlFor="showTimer">
+          Show timer to players?
+        </label>
         <div className="timer-display">
           <h2>Current Timer</h2>
           <p className="timer">

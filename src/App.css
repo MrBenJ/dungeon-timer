@@ -5,6 +5,19 @@
   text-align: center;
 }
 
+.controller {
+
+}
+
+.timer-controller {
+
+}
+
+.timer-controller-button {
+  height: 75px;
+  width: 75px;
+}
+
 .hourglass {
   position: relative;
   height: 75px;
