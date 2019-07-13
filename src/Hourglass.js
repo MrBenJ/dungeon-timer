@@ -8,7 +8,10 @@ function Hourglass(props) {
   return (
     <div>
       <div className="hourglass-time">
-        {showTimer && `${formatted.hours}:${formatted.minutes}:${formatted.seconds}`}
+        {showTimer
+          ? `${formatted.hours}:${formatted.minutes}:${formatted.seconds}`
+          : "..."
+        }
       </div>
       <div className="hourglass">
 

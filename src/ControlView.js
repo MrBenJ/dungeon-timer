@@ -9,6 +9,7 @@ class ControlView extends Component {
     super(props);
     this.state = {
       title: '',
+      bgImage: '',
       timerValue: '00:00:00',
       displayTimer: '00:00:00',
       showTimer: false
@@ -24,13 +25,19 @@ class ControlView extends Component {
       [name]: value
     });
 
-    if (name === 'title') {
-      localStorage.setItem('title', value);
-    }
-
   }
 
+  setTitle = () => {
+    const { title } = this.state;
 
+    localStorage.setItem('title', title);
+  }
+
+  setBgImage = () => {
+    const { bgImage } = this.state;
+
+    localStorage.setItem('bgImage', bgImage);
+  }
 
   startTimer = () => {
     if (this.timer.isPaused()) {
@@ -89,7 +96,7 @@ class ControlView extends Component {
 
   render() {
 
-    const { title, timerValue, displayTimer, showTimer } = this.state;
+    const { title, timerValue, displayTimer, showTimer, bgImage } = this.state;
     const [hours, minutes, seconds ] = displayTimer.split(':');
 
     return (
@@ -103,6 +110,7 @@ class ControlView extends Component {
           value={title}
           onChange={this.updateFormValues}
         />
+        <button onClick={this.setTitle}>Set Title</button>
         <div className="timer-controller">
           <label>Set Time (HH:MM:SS)</label>
           <InputMask
@@ -131,7 +139,14 @@ class ControlView extends Component {
             {`${hours}:${minutes}:${seconds}`}
           </p>
         </div>
-
+        <label>Set background image (enter a URL)</label>
+        <input
+          type="text"
+          name="bgImage"
+          onChange={this.updateFormValues}
+          value={bgImage}
+        />
+        <button onClick={this.setBgImage}>Set BG Image</button>
       </div>
     );
   }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import Hourglass from './Hourglass';
 class IndexPage extends Component {
@@ -8,7 +7,8 @@ class IndexPage extends Component {
 
     this.state = {
       title: '',
-      showTimer: 'false'
+      showTimer: 'false',
+      bgImage: ''
     }
   }
 
@@ -17,12 +17,14 @@ class IndexPage extends Component {
     const showTimer = localStorage.getItem('showTimer');
     const totalTime = localStorage.getItem('totalTime');
     const remainingTime = localStorage.getItem('remainingTime');
+    const bgImage = localStorage.getItem('bgImage');
 
     this.setState({
       title,
-      showTimer: showTimer.toString(),
+      showTimer: showTimer && showTimer.toString(),
       totalTime: +totalTime,
-      remainingTime: +remainingTime
+      remainingTime: +remainingTime,
+      bgImage
     });
   }
 
@@ -36,17 +38,21 @@ class IndexPage extends Component {
       );
     }
 
-    const { title, showTimer, totalTime, remainingTime } = this.state;
+    const { title, showTimer, totalTime, remainingTime, bgImage } = this.state;
 
     return (
-      <div className="app">
-        <p className="app-title">{title || ' '}</p>
-        <Hourglass
-          showTimer={Boolean(showTimer === 'true')}
-          totalSeconds={totalTime}
-          remainingSeconds={remainingTime}
-        />
-        {/* <Link to="/control" target="_blank">Open controller</Link> */}
+      <div className="app" style={{
+        backgroundImage: `url(${bgImage})`
+      }}>
+        <div className="app-content">
+          <p className="app-title">{title || ' '}</p>
+          <Hourglass
+            showTimer={Boolean(showTimer === 'true')}
+            totalSeconds={totalTime}
+            remainingSeconds={remainingTime}
+          />
+          {/* <Link to="/control" target="_blank">Open controller</Link> */}
+        </div>
       </div>
     );
   }

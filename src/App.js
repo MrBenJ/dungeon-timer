@@ -3,7 +3,10 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import IndexPage from './IndexPage';
 import ControlView from './ControlView';
+
+import 'reset-css';
 import './App.css';
+
 
 function App() {
   return (
